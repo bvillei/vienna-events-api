@@ -2,8 +2,8 @@ const service = require('./events.service');
 
 async function list(req, res, next) {
   try {
-    const { category, from_date, to_date, free_type, search, sort } = req.query;
-    const events = await service.getEvents({ category, from_date, to_date, free_type, search, sort });
+    const { category, from_date, to_date, free_type, search, sort, is_outdoor, is_family_friendly } = req.query;
+    const events = await service.getEvents({ category, from_date, to_date, free_type, search, sort, is_outdoor, is_family_friendly });
     res.json(events);
   } catch (err) { next(err); }
 }

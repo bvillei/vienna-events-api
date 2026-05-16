@@ -1,6 +1,6 @@
 const db = require('../../config/db');
 
-async function getEvents({ category, from_date, to_date, free_type, search, sort = 'date' } = {}) {
+async function getEvents({ category, from_date, to_date, free_type, search, is_outdoor, is_family_friendly, sort = 'date' } = {}) {
   const conditions = [];
   const values = [];
   let i = 1;
@@ -26,6 +26,14 @@ async function getEvents({ category, from_date, to_date, free_type, search, sort
     values.push(to_date);
   }
 
+  if (is_outdoor === 'true') {
+    conditions.push(`e.is_outdoor = TRUE`);
+  }
+
+  if (is_family_friendly === 'true') {
+    conditions.push(`e.is_family_friendly = TRUE`);
+  }
+
   if (search) {
     conditions.push(`(e.title_en ILIKE $${i} OR e.title_de ILIKE $${i} OR e.description_en ILIKE $${i} OR e.description_de ILIKE $${i})`);
     values.push(`%${search}%`);
@@ -43,7 +51,8 @@ async function getEvents({ category, from_date, to_date, free_type, search, sort
       e.recurrence, e.recurrence_note,
       e.free_type, e.registration_note_en, e.registration_note_de,
       e.external_url, e.image_url,
-      e.latitude, e.longitude
+      e.latitude, e.longitude,
+      e.is_outdoor, e.is_family_friendly
     FROM events e
     ${where}
     ${orderBy}
