@@ -42,7 +42,8 @@ async function getEvents({ category, from_date, to_date, free_type, search, sort
       e.start_date, e.end_date, e.start_time, e.end_time,
       e.recurrence, e.recurrence_note,
       e.free_type, e.registration_note_en, e.registration_note_de,
-      e.external_url, e.image_url
+      e.external_url, e.image_url,
+      e.latitude, e.longitude
     FROM events e
     ${where}
     ${orderBy}
